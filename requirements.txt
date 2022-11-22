@@ -1,3 +1,4 @@
 streamlit-aggrid
 openpyxl
 python3-linkedin
+requests-oauthlib
