@@ -93,10 +93,9 @@ def feed_api():
     l+= i["reference"]
   return l
 
-def repost(message = '', ):
+def repost(n, message = ''):
   api_url = 'https://api.linkedin.com/v2/ugcPosts'
   author = f'urn:li:person:{user_info}'
-  paret = f'{get_}'
   post_data = { "author": author,
   "commentary": '"' + message + '"',
   "visibility": "PUBLIC",
@@ -108,17 +107,17 @@ def repost(message = '', ):
   "lifecycleState": "PUBLISHED",
   "isReshareDisabledByAuthor": false,
   "reshareContext": {
-    "parent": "urn:li:share:6957408550713184256"
+    "parent": n
   }
 }
   requests.post(api_url, headers=headers, json=post_data)
   return 
 
-def react(typ = "LIKE"):
+def react(n, typ = "LIKE"):
   api_url = 'https://api.linkedin.com/v2/ugcPosts'
   author = f'urn:li:person:{user_info}'
   post_data = {
-    "root": get_,
+    "root": tot_like_cmmt(n)[2],
     "reactionType": f"{typ}"
 }
   requests.post(api_url, headers=headers, json=post_data)
@@ -128,7 +127,7 @@ def tot_like_cmmt(n: str):
   link = 'https://api.linkedin.com/rest/socialActions/'+get_urn(n)
   response = requests.get('https://api.linkedin.com/v2/me', headers = hd())
   response = response.json()
-  return [response["commentsSummary"]["aggregatedTotalComments"], response["likesSummary"]["totalLikes"]]
+  return [response["commentsSummary"]["aggregatedTotalComments"], response["likesSummary"]["totalLikes"], response["$URN"]]
 
 def get_desc_title(n: str):
   api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&after=' + str(n) + '&count=1&projection=(paging,elements*(reference~))'
