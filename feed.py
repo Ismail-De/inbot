@@ -1,38 +1,39 @@
 import streamlit as st
 import pandas as pd 
 import numpy as np
-from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
-from st_aggrid.shared import JsCode
-from linkedin import linkedin
-import json, ast
+from lin import auth, feed_api, repost, react, tot_like_cmmt, get_desc_title, get_id
 
 
-st.set_page_config(page_title="Red State Vs Blue State", layout="wide") 
-st.markdown("<h1 style='text-align: center; color: grey;'>Red State Vs Blue State</h1>", unsafe_allow_html=True)
+st.set_page_config(page_title="LinkedIn", layout="wide") 
+st.markdown("<h1 style='text-align: center; color: grey;'>Something</h1>", unsafe_allow_html=True)
 
-authentication = linkedin.LinkedInDeveloperAuthentication(
-                    CONSUMER_KEY,
-                    CONSUMER_SECRET,
-                    USER_TOKEN,
-                    USER_SECRET,
-                    RETURN_URL,
-                    linkedin.PERMISSIONS.enums.values()
-                )
-application = linkedin.LinkedInApplication(authentication)
-update_types = (NETWORK_UPDATES.CONNECTION, NETWORK_UPDATES.SHARED, NETWORK_UPDATES.VIRAL)
-feed = application.get_network_updates(update_types)
-feed = ast.literal_eval(json.dumps(feed))
-df = pd.read_json(feed)
-
-
-gb = GridOptionsBuilder.from_dataframe(df)
-gb.configure_pagination()
-gb.configure_side_bar()
-gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="max", editable=True)
-gb.configure_column("average net worth", type=["numericColumn", "numberColumnFilter", "customCurrencyFormat"], custom_currency_symbol="$ ")
-gridOptions = gb.build()
-AgGrid(df,
-              gridOptions=gridOptions,
-              allow_unsafe_jscode=True, 
-              fit_columns_on_grid_load=True,
-              update_mode=GridUpdateMode.SELECTION_CHANGED)
+# # Show users table 
+colms = st.columns((1, 2, 2, 2, 1, 1, 1, 1))
+fields = ["URN", 'Name', 'Title', 'Body', "Likes", "Comments", "React", "Repost"]
+for col, field_name in zip(colms, fields):
+    # header
+    col.write(field_name)
+for x in feed_api():
+    col1, col2, col3, col4, col5, col6, col7, col8 = st.columns((1, 2, 2, 2, 1, 1, 1, 1))
+    col1.write(x)
+    col2.write(get_id(x))
+    col3.write(get_desc_title(x)[0])
+    col4.write(get_desc_title(x)[1])   # email status
+    col5.write(tot_like_cmmt(x)[1])
+    col6.write(tot_like_cmmt(x)[0])
+    reactt = 'React'
+    button_type = "React" if reactt else "Done"
+    button_phold = col7.empty() 
+    do_action = button_phold.button(button_type, key=x)
+    if do_action:
+      react(x)
+      reactt = ''
+      button_phold.empty()
+    repostt = 'Repost'
+    button_type1 = "Repost" if repostt else "Done"
+    button_phold1 = col8.empty()
+    do_action1 = button_phold1.button(button_type1, key=x)
+    if do_action:
+      repost(x)
+      repostt = ''
+      button_phold1.empty()
