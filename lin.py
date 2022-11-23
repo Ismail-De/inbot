@@ -97,7 +97,7 @@ def feed_api():
   response = requests.get(api_url, headers = hd())
   response = response.json()
   for i in response["elements"]:
-    l+= i["reference"]
+    l+= [i["reference"]]
   return l
 
 def repost(n, message = ''):
