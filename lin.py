@@ -55,28 +55,26 @@ def authorize(mm):
   return auth_code
 
 def headers(access_token):
-    headers = {
-    'Authorization': f'Bearer {access_token}',
-    'cache-control': 'no-cache',
-    'X-Restli-Protocol-Version': '2.0.0'
-    }
-    return headers
+  headers = {
+  'Authorization': f'Bearer {access_token}',
+  'cache-control': 'no-cache',
+  'X-Restli-Protocol-Version': '2.0.0'
+  }
+  return headers
 
 def refresh_token(auth_code,client_id,client_secret,redirect_uri):
-    access_token_url = 'https://www.linkedin.com/oauth/v2/accessToken'
- 
-    data = {
-        'grant_type': 'authorization_code',
-        'code': auth_code,
-        'redirect_uri': redirect_uri,
-        'client_id': client_id,
-        'client_secret': client_secret
-        }
- 
-    response = requests.post(access_token_url, data=data, timeout=30)
-    response = response.json()
-    access_token = response['access_token']
-    return access_token
+  access_token_url = 'https://www.linkedin.com/oauth/v2/accessToken'
+  data = {
+  'grant_type': 'authorization_code',
+  'code': auth_code,
+  'redirect_uri': redirect_uri,
+  'client_id': client_id,
+  'client_secret': client_secret
+  }
+  response = requests.post(access_token_url, data=data, timeout=30)
+  response = response.json()
+  access_token = response['access_token']
+  return access_token
 
 def hd():
   access_token = auth()
