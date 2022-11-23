@@ -1,5 +1,4 @@
 import requests
-from ln_oauth import auth, headers
 import json
 
 def auth():
