@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd 
 import numpy as np
-from lin import auth, feed_api, repost, react, tot_like_cmmt, get_desc_title, get_id
+from lin import *
 
 
 st.set_page_config(page_title="LinkedIn", layout="wide") 
