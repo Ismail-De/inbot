@@ -19,7 +19,7 @@ def auth():
   if 'access_token' in file.readline():
     access_token = file.readline()[len('access_token: '):]
     file.close()
-    return access_token
+    return refresh_token(access_token, client_id,client_secret,redirect_uri)
 
   else: 
       args = client_id,client_secret,redirect_uri
@@ -36,7 +36,7 @@ def auth():
       file.write(access_token)
       file.write('\n')
       file.close()
-      return access_token
+      return refresh_token(access_token, client_id,client_secret,redirect_uri)
 
 def authoriz(api_url,client_id,client_secret,redirect_uri):
   api_url = 'https://www.linkedin.com/oauth/v2'
