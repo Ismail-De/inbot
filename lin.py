@@ -51,10 +51,8 @@ def authoriz(api_url,client_id,client_secret,redirect_uri):
   return s
 
 def parse_redirect_uri(redirect_response):
-  redirect_response = str(redirect_response)
-  url = urlparse(redirect_response)
-  url = parse_qs(url.query)
-  return url['code'][0]
+  ind = redirect_response.index('code=')
+  return ind[ind+len('code=')]
 
 def authorize(mm):
   auth_code = parse_redirect_uri(mm)
