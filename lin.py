@@ -40,7 +40,6 @@ def authoriz(api_url,client_id,client_secret,redirect_uri):
 
 def parse_redirect_uri(redirect_response):
     from urllib.parse import urlparse, parse_qs
- 
     url = urlparse(redirect_response)
     url = parse_qs(url.query)
     return url['code'][0]
