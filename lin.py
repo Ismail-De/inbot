@@ -2,6 +2,7 @@ import requests
 import json
 from urllib.parse import urlparse, parse_qs
 import streamlit as st
+import secrets
 
 client_id = ''
 client_secret = ''
@@ -9,36 +10,47 @@ redirect_uri = ''
 
 
 def auth():
-  file = open('token.txt', 'r')
-  client_id = ''
-  client_secret = ''
-  redirect_uri = ''
-  api_url = 'https://www.linkedin.com/oauth/v2'
-  
+  #file = open('token.txt', 'r')
   with open('token.txt') as f:
     first_line = f.readline()
-  #print(first_line)
-
-
-  if 'access_token' in firstline:
-    access_token = firstline[len('access_token: '):]
+  print(first_line)
+  url = requests.Request(
+    'GET',
+    'https://www.linkedin.com/oauth/v2/authorization',
+    params = {
+        'response_type': 'code',
+        'client_id': 'REPLACE_WITH_YOUR_CLIENT_ID',
+        'redirect_uri': 'REPLACE_WITH_REDIRECT_URL',
+        'state': secrets.token_hex(8).upper(),
+        'scope': ' '.join(['r_liteprofile', 'r_emailaddress', 'w_member_social']),
+    },
+).prepare().url
+  st.write(url)
+  if 'access_token' in first_line:
+    access_token = first_line[len('access_token: '):]
+    access_token = access_token.replace(" ", "")
+    access_token = access_token.replace("\n", "")
+    print('"'+str(access_token)+'"')
+    print(access_token, client_id,client_secret,redirect_uri)
     #file.close()
-    return refresh_token(access_token, client_id,client_secret,redirect_uri)
+    return refresh_token(access_token, client_id, client_secret, redirect_uri)
 
   else: 
       args = client_id,client_secret,redirect_uri
       st.write(authoriz(api_url,*args))
-      title = st.text_input('Paste the full redirect URL here: (Press Enter)', )
+      title = st.text_input('Paste the full redirect URL here: (Press Enter)')
       if title:
         auth_code = authorize(title)
         st.empty()
         access_token = refresh_token(auth_code,*args)
         #file.close()
-        file = open('token.txt', 'w')
+        file = open('/home/ubuntu/Documents/inbot-main/token.txt', 'w')
         file.write('access_token: ')
         file.write(access_token)
         file.write('\n')
         file.close()
+        title.empty()
+        print(access_token)
         return refresh_token(access_token, client_id,client_secret,redirect_uri)
 
 def authoriz(api_url,client_id,client_secret,redirect_uri):
@@ -56,7 +68,7 @@ def authoriz(api_url,client_id,client_secret,redirect_uri):
 
 def parse_redirect_uri(redirect_response):
   ind = redirect_response.index('code=')
-  return redirect_message[ind+len('code='):]
+  return ind[ind+len('code='):]
 
 def authorize(mm):
   auth_code = parse_redirect_uri(mm)
@@ -66,23 +78,26 @@ def headers(access_token):
   headers = {
   'Authorization': f'Bearer {access_token}',
   'cache-control': 'no-cache',
-  'X-Restli-Protocol-Version': '2.0.0'
+  'x-li-src':'msdk',
+  'X-Restli-Protocol-Version': '2.0.0',
   }
-  return headers
+  return json.dumps(headers)
 
 def refresh_token(auth_code,client_id,client_secret,redirect_uri):
   access_token_url = 'https://www.linkedin.com/oauth/v2/accessToken'
-  data = {
-  'grant_type': 'authorization_code',
-  'code': auth_code,
-  'redirect_uri': redirect_uri,
-  'client_id': client_id,
-  'client_secret': client_secret
-  }
-  response = requests.post(access_token_url, data=data, timeout=30)
-  response = response.json()
-  access_token = response['access_token']
-  return access_token
+  hh = {'ContentType': 'application/x-www-form-urlencoded'}
+  access_token = requests.post(
+    'https://www.linkedin.com/oauth/v2/accessToken',
+    params = {
+        'grant_type': 'authorization_code',
+        'code': auth_code,
+        'redirect_uri': 'REPLACE_WITH_REDIRECT_URL',
+        'client_id': 'REPLACE_WITH_YOUR_CLIENT_ID',
+        'client_secret': 'REPLACE_WITH_YOUR_CLIENT_SECRET',
+    },
+).json()
+  print(access_token)
+  return access_token['access_token']
 
 def hd():
   access_token = auth()
@@ -99,8 +114,9 @@ def feed_api():
   api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50'
   response = requests.get(api_url, headers = hd())
   response = response.json()
+  print(response)
   for i in response["elements"]:
-    l+= [i["reference"]]
+    l+= i["reference"]
   return l
 
 def repost(n, message = ''):
