@@ -24,7 +24,8 @@ def auth():
       access_token = refresh_token(auth_code,*args)
       file.close()
       file = open('token.text', 'w')
-      file.write({'access_token':access_token})
+      file.write('access_token':)
+      file.write(access_token)
       file.write('\n')
       file.close()
 
