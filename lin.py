@@ -36,6 +36,7 @@ def auth():
       file.write(access_token)
       file.write('\n')
       file.close()
+      return access_token
 
 def authoriz(api_url,client_id,client_secret,redirect_uri):
   api_url = 'https://www.linkedin.com/oauth/v2'
