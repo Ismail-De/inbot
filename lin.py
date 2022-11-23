@@ -15,24 +15,26 @@ def auth():
   redirect_uri = ''
   api_url = 'https://www.linkedin.com/oauth/v2'
 
-  if 'access_token' not in file: 
+
+  if 'access_token' in file.readline():
+    access_token = file.readline()[len('access_token'):]
+    file.close()
+    return access_token
+
+  else: 
       args = client_id,client_secret,redirect_uri
       st.write(authoriz(api_url,*args))
       title = st.text_input('Paste the full redirect URL here: (Press Enter)', )
+      while not title:
+        lol = 1
       auth_code = authorize(title)
       st.empty()
       access_token = refresh_token(auth_code,*args)
       file.close()
       file = open('token.text', 'w')
-      file.write('access_token':)
-      file.write(access_token)
+      file.write({'access_token':access_token})
       file.write('\n')
       file.close()
-
-  else: 
-      access_token = file.readline()[len('access_token'):]
-      file.close()
-  return access_token
 
 def authoriz(api_url,client_id,client_secret,redirect_uri):
   api_url = 'https://www.linkedin.com/oauth/v2'
