@@ -2,6 +2,11 @@ import requests
 import json
 from urllib.parse import urlparse, parse_qs
 
+client_id = ''
+client_secret = ''
+redirect_uri = ''
+
+
 def auth():
   file = open('token.txt', 'r')
   client_id = ''
