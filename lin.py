@@ -17,7 +17,7 @@ def auth():
 
 
   if 'access_token' in file.readline():
-    access_token = file.readline()[len('access_token'):]
+    access_token = file.readline()[len('access_token: '):]
     file.close()
     return access_token
 
