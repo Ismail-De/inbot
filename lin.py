@@ -110,7 +110,7 @@ def user_info():
 def feed_api():
   l = []
   api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50'
-  with st.button('Start'):
+  with st.form_submit_button(label = 'Start'):
     response = requests.get(api_url, headers = hd())
     response = response.json()
     print(response)
