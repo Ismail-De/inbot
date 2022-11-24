@@ -8,6 +8,7 @@ client_id = ''
 client_secret = ''
 redirect_uri = ''
 
+form = st.form(key='my-form')
 
 def auth():
   #file = open('token.txt', 'r')
