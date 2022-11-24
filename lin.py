@@ -43,13 +43,13 @@ def auth():
         auth_code = authorize(title)
         access_token = refresh_token(auth_code,*args)
         #file.close()
-        file = open('/home/ubuntu/Documents/inbot-main/token.txt', 'w')
+        file = open('token.txt', 'w')
         file.write('access_token: ')
         file.write(access_token)
         file.write('\n')
         file.close()
         print(access_token)
-        return refresh_token(access_token, client_id,client_secret,redirect_uri)
+        return access_token
 
 def authoriz(client_id,client_secret,redirect_uri):
   api_url = 'https://www.linkedin.com/oauth/v2'
