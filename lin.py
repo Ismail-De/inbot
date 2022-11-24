@@ -109,10 +109,6 @@ def user_info():
 
 def feed_api():
   l = []
-  butto = st.empty()
-  while not butto.button('Start'):
-    pass
-  butto.empty()
   api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50'
   response = requests.get(api_url, headers = hd())
   response = response.json()
