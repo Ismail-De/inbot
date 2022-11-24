@@ -39,16 +39,17 @@ def auth():
       args = client_id,client_secret,redirect_uri
       st.write(authoriz(client_id,client_secret,redirect_uri))
       title = st.text_input('Paste the full redirect URL here: (Press Start)')
-      auth_code = authorize(title)
-      access_token = refresh_token(auth_code,*args)
-      #file.close()
-      file = open('token.txt', 'w')
-      file.write('access_token: ')
-      file.write(access_token)
-      file.write('\n')
-      file.close()
-      print(access_token)
-      return access_token
+      with st.form("my_form"):
+        auth_code = authorize(title)
+        access_token = refresh_token(auth_code,*args)
+        #file.close()
+        file = open('token.txt', 'w')
+        file.write('access_token: ')
+        file.write(auth_code)
+        file.write('\n')
+        file.close()
+        print(access_token)
+        return access_token
 
 def authoriz(client_id,client_secret,redirect_uri):
   api_url = 'https://www.linkedin.com/oauth/v2'
