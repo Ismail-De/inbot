@@ -37,7 +37,7 @@ def auth():
 
   else: 
       args = client_id,client_secret,redirect_uri
-      st.write(authoriz(api_url,client_id,client_secret,redirect_uri))
+      st.write(authoriz(client_id,client_secret,redirect_uri))
       title = st.text_input('Paste the full redirect URL here: (Press Enter)')
       if title:
         auth_code = authorize(title)
@@ -51,7 +51,7 @@ def auth():
         print(access_token)
         return refresh_token(access_token, client_id,client_secret,redirect_uri)
 
-def authoriz(api_url,client_id,client_secret,redirect_uri):
+def authoriz(client_id,client_secret,redirect_uri):
   api_url = 'https://www.linkedin.com/oauth/v2'
   params = {
       'response_type': 'code',
