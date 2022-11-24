@@ -41,7 +41,6 @@ def auth():
       title = st.text_input('Paste the full redirect URL here: (Press Enter)')
       if title:
         auth_code = authorize(title)
-        st.empty()
         access_token = refresh_token(auth_code,*args)
         #file.close()
         file = open('/home/ubuntu/Documents/inbot-main/token.txt', 'w')
@@ -49,7 +48,6 @@ def auth():
         file.write(access_token)
         file.write('\n')
         file.close()
-        title.empty()
         print(access_token)
         return refresh_token(access_token, client_id,client_secret,redirect_uri)
 
