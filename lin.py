@@ -109,6 +109,7 @@ def user_info():
 
 def feed_api():
   l = []
+  butto = st.empty()
   while not butto.button('Start'):
     pass
   butto.empty()
