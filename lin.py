@@ -37,7 +37,7 @@ def auth():
 
   else: 
       args = client_id,client_secret,redirect_uri
-      st.write(authoriz(api_url,*args))
+      st.write(authoriz(api_url,client_id,client_secret,redirect_uri))
       title = st.text_input('Paste the full redirect URL here: (Press Enter)')
       if title:
         auth_code = authorize(title)
