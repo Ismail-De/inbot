@@ -38,8 +38,8 @@ def auth():
   else: 
       args = client_id,client_secret,redirect_uri
       st.write(authoriz(client_id,client_secret,redirect_uri))
-      title = st.text_input('Paste the full redirect URL here: (Press Enter)')
-      if title:
+      #title = st.text_input('Paste the full redirect URL here: (Press Enter)')
+      with st.text_input('Paste the full redirect URL here: (Press Enter)'):
         auth_code = authorize(title)
         access_token = refresh_token(auth_code,*args)
         #file.close()
