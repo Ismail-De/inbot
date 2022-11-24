@@ -8,7 +8,6 @@ client_id = ''
 client_secret = ''
 redirect_uri = ''
 
-form = st.form(key='my-form')
 
 def auth():
   #file = open('token.txt', 'r')
@@ -39,7 +38,7 @@ def auth():
   else: 
       args = client_id,client_secret,redirect_uri
       st.write(authoriz(client_id,client_secret,redirect_uri))
-      form.text_input(label='Paste the full redirect URL here:')
+      st.text_input(label='Paste the full redirect URL here:')
       #title = st.text_input('Paste the full redirect URL here: (Press Enter)')
       auth_code = authorize(title)
       access_token = refresh_token(auth_code,*args)
@@ -111,14 +110,12 @@ def user_info():
 def feed_api():
   l = []
   api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50'
-  submit_button = form.form_submit_button(label='Submit')
-  if submit_button:
-    response = requests.get(api_url, headers = hd())
-    response = response.json()
-    print(response)
-    for i in response["elements"]:
-      l+= [i["reference"]]
-    return l
+  response = requests.get(api_url, headers = hd())
+  response = response.json()
+  print(response)
+  for i in response["elements"]:
+    l+= [i["reference"]]
+  return l
 
 def repost(n, message = ''):
   api_url = 'https://api.linkedin.com/v2/ugcPosts'
