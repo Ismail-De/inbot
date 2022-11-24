@@ -109,12 +109,15 @@ def user_info():
 
 def feed_api():
   l = []
+  while not butto.button('Start'):
+    pass
+  butto.empty()
   api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50'
   response = requests.get(api_url, headers = hd())
   response = response.json()
   print(response)
   for i in response["elements"]:
-    l+= i["reference"]
+    l+= [i["reference"]]
   return l
 
 def repost(n, message = ''):
