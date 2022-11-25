@@ -73,13 +73,13 @@ def hd(v):
     return
 
 def user_info(v=True):
-  response = requests.get('https://api.linkedin.com/v2/me', headers = hd(v))
+  response = requests.get('https://api.linkedin.com/v2/me&quot', headers = hd(v))
   user_info = response.json()
   return user_info['id']
 
 def feed_api(v):
   l = []
-  api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50'
+  api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50&quot'
   if v:
     response = requests.get(api_url, headers = hd(v))
     response = response.json()
@@ -91,7 +91,7 @@ def feed_api(v):
     return
 
 def repost(n, message = ''):
-  api_url = 'https://api.linkedin.com/v2/ugcPosts'
+  api_url = 'https://api.linkedin.com/v2/ugcPosts&quot'
   author = f'urn:li:person:{user_info}'
   post_data = { "author": author,
   "commentary": '"' + message + '"',
@@ -111,7 +111,7 @@ def repost(n, message = ''):
   return 
 
 def react(n, typ = "LIKE"):
-  api_url = 'https://api.linkedin.com/v2/ugcPosts'
+  api_url = 'https://api.linkedin.com/v2/ugcPosts&quot'
   author = f'urn:li:person:{user_info}'
   post_data = {
     "root": tot_like_cmmt(n)[2],
@@ -121,13 +121,13 @@ def react(n, typ = "LIKE"):
   return 
 
 def tot_like_cmmt(n: str, v =True):
-  link = 'https://api.linkedin.com/rest/socialActions/'+get_urn(n)
-  response = requests.get('https://api.linkedin.com/v2/me', headers = hd(v))
+  link = 'https://api.linkedin.com/rest/socialActions/'+get_urn(n)+'&quot'
+  response = requests.get(link, headers = hd(v))
   response = response.json()
   return [response["commentsSummary"]["aggregatedTotalComments"], response["likesSummary"]["totalLikes"], response["$URN"]]
 
 def get_desc_title(n: str, v=True):
-  api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&after=' + str(n) + '&count=1&projection=(paging,elements*(reference~))'
+  api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&after=' + str(n) + '&count=1&projection=(paging,elements*(reference~))&quot'
   response = requests.get(api_url, headers = hd(v))
   response = response.json()
   return [response["contentEntities"]["description"], response["contentEntities"]["title"], response["created"]["actor"]]
@@ -142,7 +142,7 @@ def get_id(n: str, v=True):
   if 'urn:li:person:' in n:
     n = n[len('urn:li:person:'):]
     
-  api_url = 'https://api.linkedin.com/v2/people/id='+ str(n) + '?projection=(id,localizedFirstName,localizedLastName)'
+  api_url = 'https://api.linkedin.com/v2/people/id='+ str(n) + '?projection=(id,localizedFirstName,localizedLastName)&quot'
   response = requests.get(api_url, headers = hd(v))
   response = response.json()
   return response["localizedFirstName"] + " " + response["localizedLastName"]
