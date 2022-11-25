@@ -14,36 +14,26 @@ def auth():
   with open('token.txt') as f:
     first_line = f.readline()
   print(first_line)
-  url = requests.Request(
-    'GET',
-    'https://www.linkedin.com/oauth/v2/authorization',
-    params = {
-        'response_type': 'code',
-        'client_id': 'REPLACE_WITH_YOUR_CLIENT_ID',
-        'redirect_uri': 'REPLACE_WITH_REDIRECT_URL',
-        'state': secrets.token_hex(8).upper(),
-        'scope': ' '.join(['r_liteprofile', 'r_emailaddress', 'w_member_social']),
-    },
-).prepare().url
-  st.write(url)
+  base_url = "https://www.linkedin.com/oauth/v2/authorization&quot"
+  scope = "w_member_social,r_liteprofile"
+  url = f"https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}&scope={scope}"
   if 'access_token' in first_line:
     access_token = first_line[len('access_token: '):]
     access_token = access_token.replace(" ", "")
     access_token = access_token.replace("\n", "")
     print('"'+str(access_token)+'"')
-    print(access_token, client_id,client_secret,redirect_uri)
     #file.close()
-    return refresh_token(access_token, client_id, client_secret, redirect_uri)
+    return access_token
 
   else: 
       args = client_id,client_secret,redirect_uri
-      st.write(authoriz(client_id,client_secret,redirect_uri))
+      st.write("Please visit this" + url)
       with st.form("my_form"):
-        title = st.text_input('Paste the full redirect URL here: (Press Start)')
+        title = st.text_input('Paste the full redirect URL here: (Press Submit)')
         submitted = st.form_submit_button("Submit")
         if submitted:
-          auth_code = authorize(title)
-          access_token = refresh_token(auth_code,*args)
+          auth_code = title
+          access_token = refresh_token(auth_code)
           #file.close()
           file = open('token.txt', 'w')
           file.write('access_token: ')
@@ -53,53 +43,26 @@ def auth():
           print(access_token)
           return access_token
 
-def authoriz(client_id,client_secret,redirect_uri):
-  api_url = 'https://www.linkedin.com/oauth/v2'
-  params = {
-      'response_type': 'code',
-      'client_id': client_id,
-      'redirect_uri': redirect_uri,
-      'scope': 'r_liteprofile,r_emailaddress,w_member_social'
-      }
-
-  response = requests.get(f'{api_url}/authorization',params=params)
-  s = "Please go here and authorize:" + str(response.url)
-  return s
-
-def parse_redirect_uri(redirect_response):
-  while redirect_response:
-    print('1')
-  ind = redirect_response.index('code=')
-  return redirect_response[ind+len('code='):]
-
-def authorize(mm):
-  auth_code = parse_redirect_uri(mm)
-  return auth_code
 
 def headers(access_token):
   headers = {
-  'Authorization': f'Bearer {access_token}',
-  'cache-control': 'no-cache',
-  'x-li-src':'msdk',
-  'X-Restli-Protocol-Version': '2.0.0',
+  'Authorization': f'Bearer {access_token}'
   }
   return json.dumps(headers)
 
-def refresh_token(auth_code,client_id,client_secret,redirect_uri):
-  access_token_url = 'https://www.linkedin.com/oauth/v2/accessToken'
-  hh = {'ContentType': 'application/x-www-form-urlencoded'}
-  access_token = requests.post(
-    'https://www.linkedin.com/oauth/v2/accessToken',
-    params = {
-        'grant_type': 'authorization_code',
-        'code': auth_code,
-        'redirect_uri': 'REPLACE_WITH_REDIRECT_URL',
-        'client_id': 'REPLACE_WITH_YOUR_CLIENT_ID',
-        'client_secret': 'REPLACE_WITH_YOUR_CLIENT_SECRET',
-    },
-).json()
-  print(access_token)
-  return access_token['access_token']
+def refresh_token(auth_code):
+  url_access_token = "https://www.linkedin.com/oauth/v2/accessToken&quot"
+  payload = {
+      'grant_type' : 'authorization_code',
+      'code' : auth_code,
+      'redirect_uri' : redirect_uri,
+      'client_id' : client_id,
+      'client_secret' : client_secret
+  }
+  response = requests.post(url=url_access_token, params=payload)
+  response_json = response.json()
+  access_token = response_json['access_token']
+  return access_token
 
 def hd(v):
   if v:
