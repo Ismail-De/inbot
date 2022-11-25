@@ -65,8 +65,10 @@ def authoriz(client_id,client_secret,redirect_uri):
   return s
 
 def parse_redirect_uri(redirect_response):
+  while redirect_response:
+    print('1')
   ind = redirect_response.index('code=')
-  return ind[ind+len('code='):]
+  return redirect_response[ind+len('code='):]
 
 def authorize(mm):
   auth_code = parse_redirect_uri(mm)
