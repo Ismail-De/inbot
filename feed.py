@@ -16,7 +16,7 @@ for col, field_name in zip(colms, fields):
     col.write(field_name)
 with st.form("my_form"):
     submitted = st.form_submit_button("Submit")
-    if submitted:
+    if submitted and  feed_api(bool(submitted) != None:
         for x in feed_api(bool(submitted)):
             col1, col2, col3, col4, col5, col6, col7, col8 = st.columns((1, 2, 2, 2, 1, 1, 1, 1))
             col1.write(x)
