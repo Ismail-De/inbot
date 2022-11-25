@@ -102,12 +102,12 @@ def refresh_token(auth_code,client_id,client_secret,redirect_uri):
   return access_token['access_token']
 
 def hd(v):
-  if v==False:
-    return
-  else:
+  if v:
     access_token = auth()
     hds = headers(access_token)
     return hds
+  else:
+    return
 
 def user_info(v=True):
   response = requests.get('https://api.linkedin.com/v2/me', headers = hd(v))
@@ -117,7 +117,7 @@ def user_info(v=True):
 def feed_api(v):
   l = []
   api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50'
-    if v == True:
+    if v:
       response = requests.get(api_url, headers = hd(v))
       response = response.json()
       print(response)
