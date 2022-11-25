@@ -40,4 +40,4 @@ def princip():
           repostt = ''
           button_phold1.empty()
 if st.button('Start'):
-    princip())
+    princip()
