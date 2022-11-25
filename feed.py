@@ -39,4 +39,4 @@ def princip():
           repost(x)
           repostt = ''
           button_phold1.empty()
-st.button('Start', on_click = princip())
+bb = st.button('Start', on_click = princip())
