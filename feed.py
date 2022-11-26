@@ -26,27 +26,33 @@ if auth()!=None:
         col4.write(get_desc_title(x)[1])   # email status
         col5.write(tot_like_cmmt(x)[1])
         col6.write(tot_like_cmmt(x)[0])
+        
         reactt = 'React'
         button_type = "React" if reactt else "Done"
-        button_phold = col7.empty() 
-        do_action = button_phold.button(button_type, key=x)
+        button_phold = col7.empty()
+        m = x + 'r'
+        do_action = button_phold.checkbox(button_type, key=m)
         if do_action:
           react(x)
-          reactt = ''
           button_phold.empty()
+            
         repostt = 'Repost'
         button_type1 = "Repost" if repostt else "Done"
         button_phold1 = col8.empty()
-        do_action1 = button_phold1.button(button_type1, key="1")
-        if do_action:
+        m = x + 're'
+        do_action1 = button_phold1.checkbox(button_type1, key=m)
+        if do_action1:
           repost(x)
-          repostt = ''
           button_phold1.empty()
-        reactt = 'Comment'
-        button_type2 = "Comment" if reactt else "Done"
-        button_phold2 = col8.empty() 
-        do_action = button_phold2.button(button_type, key="2")
-        if do_action:
-          comment(x)
-          comment = ''
+            
+        comment = 'Comment'
+        button_type2 = "Comment" if comment else "Done"
+        button_phold2 = col9.empty()
+        m = x + 'c'
+        do_action2 = button_phold2.checkbox(button_type2, key=m)
+        if do_action2:
+          if cmmt!=None:
+              comment(x, message = cmmt)
+          else:
+             comment(x)
           button_phold2.empty()
