@@ -46,6 +46,8 @@ def auth():
 
 def headers(access_token):
   headers = {
+  'Content-Type': 'application/json',
+  'X-Restli-Protocol-Version': '2.0.0',
   'Authorization': f'Bearer {access_token}'
   }
   return json.dumps(headers)
@@ -70,13 +72,13 @@ def hd():
   return hds
 
 def user_info():
-  response = requests.get('https://api.linkedin.com/v2/me&quot', headers = hd())
+  response = requests.get('https://api.linkedin.com/v2/me', headers = hd())
   user_info = response.json()
   return user_info['id']
 
 def feed_api():
   l = []
-  api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50&quot'
+  api_url = 'https://api.linkedin.com/v2/activityFeeds?q=networkShares&count=50'
   response = requests.get(api_url, headers = hd())
   response = response.json()
   print(response)
@@ -85,7 +87,7 @@ def feed_api():
   return l
 
 def repost(n, message = ''):
-  api_url = 'https://api.linkedin.com/v2/ugcPosts&quot'
+  api_url = 'https://api.linkedin.com/v2/ugcPosts'
   author = f'urn:li:person:{user_info}'
   post_data = { "author": author,
   "commentary": '"' + message + '"',
@@ -105,7 +107,7 @@ def repost(n, message = ''):
   return 
 
 def react(n, typ = "LIKE"):
-  api_url = 'https://api.linkedin.com/v2/ugcPosts&quot'
+  api_url = 'https://api.linkedin.com/v2/ugcPosts'
   author = f'urn:li:person:{user_info}'
   post_data = {
     "root": tot_like_cmmt(n)[2],
@@ -115,7 +117,7 @@ def react(n, typ = "LIKE"):
   return 
 
 def tot_like_cmmt(n: str):
-  link = 'https://api.linkedin.com/rest/socialActions/'+get_urn(n)+'&quot'
+  link = 'https://api.linkedin.com/rest/socialActions/'+get_urn(n)
   response = requests.get(link, headers = hd())
   response = response.json()
   return [response["commentsSummary"]["aggregatedTotalComments"], response["likesSummary"]["totalLikes"], response["$URN"]]
@@ -136,7 +138,19 @@ def get_id(n: str):
   if 'urn:li:person:' in n:
     n = n[len('urn:li:person:'):]
     
-  api_url = 'https://api.linkedin.com/v2/people/id='+ str(n) + '?projection=(id,localizedFirstName,localizedLastName)&quot'
+  api_url = 'https://api.linkedin.com/v2/people/id='+ str(n) + '?projection=(id,localizedFirstName,localizedLastName)'
   response = requests.get(api_url, headers = hd())
   response = response.json()
   return response["localizedFirstName"] + " " + response["localizedLastName"]
+
+def comm(n: str, message = 'Thanks for sharing'):
+  api_url "https://api.linkedin.com/rest/socialActions/" + get_urn(n) + "/comments"
+  author = f'urn:li:person:{user_info}'
+  data = {
+   "actor":author,
+   "object":n,
+   "message":{
+      "text":message
+   }
+  }
+
