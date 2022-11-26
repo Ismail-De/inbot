@@ -37,7 +37,7 @@ if auth()!=None:
         repostt = 'Repost'
         button_type1 = "Repost" if repostt else "Done"
         button_phold1 = col8.empty()
-        do_action1 = button_phold1.button(button_type1, key=x)
+        do_action1 = button_phold1.button(button_type1, key="1")
         if do_action:
           repost(x)
           repostt = ''
@@ -45,7 +45,7 @@ if auth()!=None:
         reactt = 'Comment'
         button_type2 = "Comment" if reactt else "Done"
         button_phold2 = col8.empty() 
-        do_action = button_phold2.button(button_type, key=x)
+        do_action = button_phold2.button(button_type, key="2")
         if do_action:
           comment(x)
           comment = ''
