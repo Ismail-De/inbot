@@ -8,8 +8,10 @@ st.set_page_config(page_title="LinkedIn", layout="wide")
 st.markdown("<h1 style='text-align: center; color: grey;'>Something</h1>", unsafe_allow_html=True)
 
 # # Show users table 
-colms = st.columns((1, 2, 2, 2, 1, 1, 1, 1))
-fields = ["URN", 'Name', 'Title', 'Body', "Likes", "Comments", "React", "Repost"]
+colms = st.columns((1, 2, 2, 2, 1, 1, 1, 1, 2))
+fields = ["URN", 'Name', 'Title', 'Body', "Likes", "Comments", "React", "Repost", "Comment"]
+
+cmmt = st.text_input("Your comment (by default Thanks for sharing)")
 
 for col, field_name in zip(colms, fields):
     # header
@@ -17,7 +19,7 @@ for col, field_name in zip(colms, fields):
 
 if auth()!=None:
     for x in feed_api():
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns((1, 2, 2, 2, 1, 1, 1, 1))
+        col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns((1, 2, 2, 2, 1, 1, 1, 1))
         col1.write(x)
         col2.write(get_id(x))
         col3.write(get_desc_title(x)[0])
@@ -40,3 +42,11 @@ if auth()!=None:
           repost(x)
           repostt = ''
           button_phold1.empty()
+        reactt = 'Comment'
+        button_type2 = "Comment" if reactt else "Done"
+        button_phold2 = col8.empty() 
+        do_action = button_phold2.button(button_type, key=x)
+        if do_action:
+          comment(x)
+          comment = ''
+          button_phold2.empty()
