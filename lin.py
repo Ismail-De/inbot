@@ -53,7 +53,7 @@ def headers(access_token):
   return json.dumps(headers)
 
 def refresh_token(auth_code):
-  url_access_token = "https://www.linkedin.com/oauth/v2/accessToken&quot"
+  url_access_token = "https://www.linkedin.com/oauth/v2/accessToken"
   payload = {
       'grant_type' : 'authorization_code',
       'code' : auth_code,
