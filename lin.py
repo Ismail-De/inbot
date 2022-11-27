@@ -4,33 +4,11 @@ from urllib.parse import urlparse, parse_qs
 import secrets
 from ln_oauth import auth, headers
 
-def headers(access_token):
-  headers = {
-  'Content-Type': 'application/json',
-  'X-Restli-Protocol-Version': '2.0.0',
-  'Authorization': f'Bearer {access_token}'
-  }
-  return json.dumps(headers)
 
-def refresh_token(auth_code):
-  url_access_token = "https://www.linkedin.com/oauth/v2/accessToken"
-  payload = {
-      'grant_type' : 'authorization_code',
-      'code' : auth_code,
-      'redirect_uri' : redirect_uri,
-      'client_id' : client_id,
-      'client_secret' : client_secret
-  }
-  response = requests.post(url=url_access_token, json=payload)
-  print(response)
-  response_json = response.json()
-  access_token = response_json
-  return access_token
+credentials = 'credentials.json'
+access_token = auth(credentials)
+headers = headers(access_token)
 
-def hd():
-  access_token = auth()
-  hds = headers(access_token)
-  return hds
 
 def user_info():
   response = requests.get('https://api.linkedin.com/v2/me', headers = headers)
