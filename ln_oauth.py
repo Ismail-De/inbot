@@ -2,7 +2,7 @@ import json
 import random
 import requests
 import string
- 
+
 def auth(credentials):
     '''
     Run the Authentication.
@@ -25,7 +25,7 @@ def auth(credentials):
     else: 
         access_token = creds['access_token']
     return access_token
- 
+  
 def headers(access_token):
     '''
     Make the headers to attach to the API call.
@@ -36,7 +36,7 @@ def headers(access_token):
     'X-Restli-Protocol-Version': '2.0.0'
     }
     return headers
- 
+  
 def read_creds(filename):
     '''
     Store API credentials in a safe place.
@@ -45,7 +45,7 @@ def read_creds(filename):
     with open(filename) as f:
         credentials = json.load(f)
     return credentials
- 
+  
 def save_token(filename,data):
     '''
     Write token to credentials file.
@@ -53,7 +53,7 @@ def save_token(filename,data):
     data = json.dumps(data, indent = 4) 
     with open(filename, 'w') as f: 
         f.write(data)
- 
+        
 def create_CSRF_token():
     '''
     This function generate a random string of letters.
@@ -64,7 +64,7 @@ def create_CSRF_token():
     letters = string.ascii_lowercase
     token = ''.join(random.choice(letters) for i in range(20))
     return token
- 
+  
 def open_url(url):
     '''
     Function to Open URL.
@@ -73,7 +73,7 @@ def open_url(url):
     import webbrowser
     print(url)
     webbrowser.open(url)
- 
+    
 def parse_redirect_uri(redirect_response):
     '''
     Parse redirect response into components.
@@ -84,7 +84,7 @@ def parse_redirect_uri(redirect_response):
     url = urlparse(redirect_response)
     url = parse_qs(url.query)
     return url['code'][0]
- 
+  
 def authorize(api_url,client_id,client_secret,redirect_uri):
     # Request authentication URL
     csrf_token = create_CSRF_token()
@@ -112,7 +112,7 @@ def authorize(api_url,client_id,client_secret,redirect_uri):
     redirect_response = input('Paste the full redirect URL here:')
     auth_code = parse_redirect_uri(redirect_response)
     return auth_code
- 
+  
 def refresh_token(auth_code,client_id,client_secret,redirect_uri):
     '''
     Exchange a Refresh Token for a New Access Token.
@@ -132,7 +132,7 @@ def refresh_token(auth_code,client_id,client_secret,redirect_uri):
     print(response)
     access_token = response['access_token']
     return access_token
- 
+  
 if __name__ == '__main__':
     credentials = 'credentials.json'
     access_token = auth(credentials)
