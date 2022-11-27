@@ -64,7 +64,7 @@ def refresh_token(auth_code):
   response = requests.post(url=url_access_token, json=payload)
   print(response)
   response_json = response.json()
-  access_token = response_json['access_token']
+  access_token = response_json
   return access_token
 
 def hd():
