@@ -2,6 +2,7 @@ import json
 import random
 import requests
 import string
+import streamlit as st
 
 def auth(credentials):
 	creds = read_creds(credentials)
@@ -73,9 +74,11 @@ def authorize(api_url,client_id,client_secret,redirect_uri):
 	This is normal.\n
 	You need to copy the URL where you are being redirected to.\n
 	''')
-	open_url(response.url)
+	st.write("Please visit" + str(response.url))
 	# Get the authorization verifier code from the callback url
-	redirect_response = input('Paste the full redirect URL here:')
+	redirect_response = st.text_input('Paste the full redirect URL here:')
+	while len(redirect_response) == 0:
+		ff = 0
 	auth_code = parse_redirect_uri(redirect_response)
 	return auth_code
   
