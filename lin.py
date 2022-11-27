@@ -144,7 +144,7 @@ def get_id(n: str):
   return response["localizedFirstName"] + " " + response["localizedLastName"]
 
 def comm(n: str, message = 'Thanks for sharing'):
-  api_url "https://api.linkedin.com/rest/socialActions/" + get_urn(n) + "/comments"
+  api_url = "https://api.linkedin.com/rest/socialActions/" + get_urn(n) + "/comments"
   author = f'urn:li:person:{user_info}'
   data = {
    "actor":author,
