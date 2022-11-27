@@ -8,7 +8,7 @@ client_id = '86wluahn9m77um'
 client_secret = 'Tp9m8CH7oGBklnCq'
 redirect_uri = 'https://api-university.com/'
 
-
+buttt = st.empty()
 def auth():
   #file = open('token.txt', 'r')
   with open('token.txt') as f:
@@ -29,7 +29,7 @@ def auth():
       args = client_id,client_secret,redirect_uri
       st.write("Please visit this" + url)
       title = st.text_input('Paste the full redirect URL here: (Press Submit)')
-      submitted = st.button("Submit")
+      submitted = buttt.button("Submit")
       if submitted:
         print(title)
         auth_code = title
