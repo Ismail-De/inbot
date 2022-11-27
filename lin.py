@@ -31,18 +31,18 @@ def auth():
       with st.form("my_form"):
         title = st.text_input('Paste the full redirect URL here: (Press Submit)')
         submitted = st.form_submit_button("Submit")
-        if submitted:
-          print(title)
-          auth_code = title
-          access_token = refresh_token(auth_code)
-          #file.close()
-          file = open('token.txt', 'w')
-          file.write('access_token: ')
-          file.write(auth_code)
-          file.write('\n')
-          file.close()
-          print(access_token)
-          return access_token
+      if submitted:
+        print(title)
+        auth_code = title
+        access_token = refresh_token(auth_code)
+        #file.close()
+        file = open('token.txt', 'w')
+        file.write('access_token: ')
+        file.write(auth_code)
+        file.write('\n')
+        file.close()
+        print(access_token)
+        return access_token
 
 
 def headers(access_token):
