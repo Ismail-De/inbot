@@ -17,7 +17,7 @@ for col, field_name in zip(colms, fields):
     # header
     col.write(field_name)
 
-if buttt:
+if buttt.button('Send'):
     for x in feed_api():
         col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns((1, 2, 2, 2, 1, 1, 1, 1, 2))
         col1.write(x)
