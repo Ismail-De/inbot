@@ -12,12 +12,13 @@ colms = st.columns((1, 2, 2, 2, 1, 1, 1, 1, 2))
 fields = ["URN", 'Name', 'Title', 'Body', "Likes", "Comments", "React", "Repost", "Comment"]
 
 cmmt = st.text_input("Your comment (by default Thanks for sharing)")
+sen = st.text_input(" input 1")
 
 for col, field_name in zip(colms, fields):
     # header
     col.write(field_name)
 
-if buttt.button('Send'):
+if sen:
     for x in feed_api():
         col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns((1, 2, 2, 2, 1, 1, 1, 1, 2))
         col1.write(x)
