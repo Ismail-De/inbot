@@ -28,9 +28,8 @@ def auth():
   else: 
       args = client_id,client_secret,redirect_uri
       st.write("Please visit this" + url)
-      with st.form("my_form"):
-        title = st.text_input('Paste the full redirect URL here: (Press Submit)')
-        submitted = st.form_submit_button("Submit")
+      title = st.text_input('Paste the full redirect URL here: (Press Submit)')
+      submitted = st.button("Submit")
       if submitted:
         print(title)
         auth_code = title
