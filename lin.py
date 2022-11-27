@@ -32,6 +32,7 @@ def auth():
         title = st.text_input('Paste the full redirect URL here: (Press Submit)')
         submitted = st.form_submit_button("Submit")
         if submitted:
+          print(title)
           auth_code = title
           access_token = refresh_token(auth_code)
           #file.close()
