@@ -9,6 +9,8 @@ credentials = 'credentials.json'
 access_token = auth(credentials)
 headers = headers(access_token)
 
+print(headers)
+
 
 def user_info():
   response = requests.get('https://api.linkedin.com/v2/me', headers = headers)
