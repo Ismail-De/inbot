@@ -12,7 +12,6 @@ colms = st.columns((1, 2, 2, 2, 1, 1, 1, 1, 2))
 fields = ["URN", 'Name', 'Title', 'Body', "Likes", "Comments", "React", "Repost", "Comment"]
 
 cmmt = st.text_input("Your comment (by default Thanks for sharing)")
-sen = st.text_input(" input 1")
 
 for col, field_name in zip(colms, fields):
     # header
