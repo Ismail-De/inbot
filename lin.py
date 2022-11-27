@@ -4,9 +4,9 @@ from urllib.parse import urlparse, parse_qs
 import streamlit as st
 import secrets
 
-client_id = ''
-client_secret = ''
-redirect_uri = ''
+client_id = '86wluahn9m77um'
+client_secret = 'Tp9m8CH7oGBklnCq'
+redirect_uri = 'https://api-university.com/'
 
 
 def auth():
