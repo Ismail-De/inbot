@@ -43,7 +43,6 @@ def auth():
         print(access_token)
         return access_token
 
-
 def headers(access_token):
   headers = {
   'Content-Type': 'application/json',
