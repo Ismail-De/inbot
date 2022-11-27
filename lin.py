@@ -62,6 +62,7 @@ def refresh_token(auth_code):
       'client_secret' : client_secret
   }
   response = requests.post(url=url_access_token, params=payload)
+  print(response)
   response_json = response.json()
   access_token = response_json['access_token']
   return access_token
